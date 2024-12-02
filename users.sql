@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Сен 06 2024 г., 17:58
+-- Время создания: Дек 02 2024 г., 23:31
 -- Версия сервера: 8.0.30
--- Версия PHP: 7.4.30
+-- Версия PHP: 8.1.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -51,7 +51,10 @@ INSERT INTO `users` (`id`, `username`, `fibbonachi`, `number`, `ip`) VALUES
 (9, 'UserFromKyiv', 55, 10, '127.0.0.1'),
 (10, 'John', 610, 15, '127.0.0.1'),
 (11, 'Jason', 987, 16, '127.0.0.1'),
-(12, 'Mike', 2584, 18, '127.0.0.1');
+(12, 'Mike', 2584, 18, '127.0.0.1'),
+(13, 'Jason', 3, 4, '127.0.0.1'),
+(14, 'evgenzekul@gmail.com', 3, 4, '127.0.0.1'),
+(15, 'danielle50', 3, 4, '127.0.0.1');
 
 --
 -- Индексы сохранённых таблиц
@@ -71,7 +74,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

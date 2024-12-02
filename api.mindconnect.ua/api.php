@@ -13,7 +13,9 @@
 
     $request__method = $_SERVER['REQUEST_METHOD'];
     $page = $_GET['page'];
-    $num = $_POST['number'];
+    $arguments = explode('/' , $page);
+    $param = $arguments[1];
+    //$num = $_POST['number'];
 
     function fibo($num) { 
         if ($num == 0 ) return 0; 
@@ -28,43 +30,22 @@
         
 
     
-    
-    /*
-    if ($page != null)
-    {
-        $arguments = explode('/' , $page);
-
-        $type = $arguments[0];
-        $param = $arguments[1];
-    }
-    */
-
-    
 
     
     if ($request__method === 'GET')
     {
-        $page_number = $_GET['page'];
-
-        if ($page_number == null) 
+        if ($page == 'posts/')
             getPosts($result__for__pagination);
 
-        elseif ($page_number != null) {
-            getPost($connect__db , $page_number);
-        }
+        elseif ($page == 'posts/' . $param) 
+            getPost($connect__db , $param);
+        
     }
 
 
-
-
-
-
-
-
-
-    
     elseif ($request__method === 'POST') {
-        addPost($connect__db , fibo($num) , $_POST, $_SERVER['SERVER_ADDR']);
+        if ($page == 'posts/')
+            addPost($connect__db , fibo($num) , $_POST, $_SERVER['SERVER_ADDR']);
     }
 
     

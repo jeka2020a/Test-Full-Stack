@@ -3,106 +3,49 @@
 
 
 
-/*
-async function getPosts ()
-{
-    let result = await fetch("http://api.mindconnect.ua/index.php");
-    let posts  = await result.json();
 
-    //document.querySelector('.tbody').innerHTML = '';
+$(document).ready(function () {
 
-    posts.forEach((post) => {
-        document.querySelector('.tbody').innerHTML += 
-        `
-            <tr>
-              <td>${post.id}</td>
-              <td>${post.username}</td>
-              <td>${post.number}</td>
-              <td>${post.fibbonachi}</td>
-              <td>${post.ip}</td>
-            </tr>
-        `;
-    });
-}
-*/
-let currentPage = 1; // Текущая страница
-let postsPerPage = 5; // Количество постов на одной странице
+    $('#myTable').DataTable();
+    let page = 1; // Начальная страница
 
-async function getPosts(page = 1) {
-    let result = await fetch(`http://api.mindconnect.ua/index.php?page=${page}`);
-    let posts = await result.json();
-    
-    // Очищаем предыдущие записи
-    document.querySelector('.tbody').innerHTML = '';
-    
-    posts.forEach((post) => {
-        document.querySelector('.tbody').innerHTML += 
-        `
-            <tr>
-              <td>${post.id}</td>
-              <td>${post.username}</td>
-              <td>${post.number}</td>
-              <td>${post.fibbonachi}</td>
-              <td>${post.ip}</td>
-            </tr>
-        `;
-    });
-
-    updatePaginationControls();
-}
-
-function updatePaginationControls() {
-    let paginationControls = document.querySelector('.pagination');
-    paginationControls.innerHTML = '';
-
-    // Добавляем кнопку "Назад"
-    if (currentPage > 1) {
-        paginationControls.innerHTML += `<button class='page-link' onclick="changePage(${currentPage - 1})">previous</button>`;
+    // Функция для загрузки данных
+    function loadData(page) {
+        $.get(`http://api.mindconnect.ua/posts/${page}`, function (result) {
+            $('.tbody').empty(); // Очищаем таблицу перед добавлением новых данных
+            result.forEach(element => {
+                $('.tbody').append(`
+                    <tr>
+                        <td>${element.id}</td>
+                        <td>${element.username}</td>
+                        <td>${element.number}</td>
+                        <td>${element.fibbonachi}</td>
+                        <td>${element.ip}</td>
+                    </tr>
+                `);
+            });
+        }).fail(function () {
+            console.error("Ошибка загрузки данных");
+        });
     }
 
-    // Добавляем кнопку "Вперед"
-    paginationControls.innerHTML += `<button class='page-link' onclick="changePage(${currentPage + 1})">next</button>`;
-}
-
-function changePage(page) {
-    currentPage = page;
-    getPosts(currentPage);
-}
-
-// Инициализация получения постов
-getPosts(currentPage);
+    
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-async function addPost() {
-    const username = document.getElementById('username').value;
-    const number = document.getElementById('number').value;
-
-    let formdata = new FormData();
-
-
-    formdata.append('username', username);
-    formdata.append('number', number);
-
-    let res = await fetch("http://api.mindconnect.ua/index.php",{
-        method: 'POST',
-        body: formdata
+    
+    $('.prev').on('click', function () {
+        if (page > 1) { // Предотвращаем переход на страницу меньше 1
+            page--;
+            loadData(page); // Загружаем данные для новой страницы
+        }
     });
 
-    const data = await res.json();
-}
+    $('.next').on('click', function () {
+        page++;
+        loadData(page); // Загружаем данные для новой страницы
+    });
 
-
-getPosts();
+    // Загружаем данные для первой страницы при загрузке страницы
+    loadData(page);
+});
