@@ -23,13 +23,23 @@ $(document).ready(function () {
         let username = $('#username').val();
         let number = $('#number').val();
         
-        $.post('http://api.mindconnect.ua/posts/', 
-            {username: username, number: number}, 
-            function(data){
-                alert(data);
-            });
-    })
 
+        if (username != undefined || number != undefined)
+        {
+            $.post('http://api.mindconnect.ua/posts/', 
+                {username: username, number: number}, 
+                function(data){
+                    alert(data);
+                }
+            );
+        }
+        else 
+        {
+            $('#username').css('border','1px solid red');
+            $('#number').css('border','1px solid red');
+        }
+        
+    });
 
 
 });
