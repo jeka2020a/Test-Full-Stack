@@ -1,18 +1,19 @@
-
-
-
-
-
-
 $(document).ready(function () {
 
-    $('#myTable').DataTable();
-    let page = 1; // Начальная страница
+    let table = new DataTable('#myTable');
 
-    // Функция для загрузки данных
+
+    $('#myTable').DataTable();
+    
+    
+    
+    
+    let page = 1; 
+
+    
     function loadData(page) {
         $.get(`http://api.mindconnect.ua/posts/${page}`, function (result) {
-            $('.tbody').empty(); // Очищаем таблицу перед добавлением новых данных
+            $('.tbody').empty(); 
             result.forEach(element => {
                 $('.tbody').append(`
                     <tr>
@@ -35,17 +36,35 @@ $(document).ready(function () {
 
     
     $('.prev').on('click', function () {
-        if (page > 1) { // Предотвращаем переход на страницу меньше 1
+        if (page > 1) { 
             page--;
-            loadData(page); // Загружаем данные для новой страницы
+            loadData(page); 
         }
     });
 
     $('.next').on('click', function () {
         page++;
-        loadData(page); // Загружаем данные для новой страницы
+        loadData(page);
     });
 
-    // Загружаем данные для первой страницы при загрузке страницы
+    
     loadData(page);
+
+
+    
+
+    $('.send__data').click(function() {
+
+        let username = $('#username').val();
+        let number = $('#number').val();
+        
+        $.post('http://api.mindconnect.ua/posts/', 
+            {username: username, number: number}, 
+            function(data){
+                alert(data);
+            });
+    })
+
+
+
 });

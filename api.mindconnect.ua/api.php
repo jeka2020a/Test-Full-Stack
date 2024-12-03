@@ -15,7 +15,7 @@
     $page = $_GET['page'];
     $arguments = explode('/' , $page);
     $param = $arguments[1];
-    //$num = $_POST['number'];
+    $num = $_POST['number'];
 
     function fibo($num) { 
         if ($num == 0 ) return 0; 
@@ -36,6 +36,9 @@
     {
         if ($page == 'posts/')
             getPosts($result__for__pagination);
+
+        elseif ($page == 'all/') 
+            getAll($connect__db);
 
         elseif ($page == 'posts/' . $param) 
             getPost($connect__db , $param);

@@ -9,6 +9,15 @@
         echo json_encode($postsList);
     }
 
+    function getAll($connect__db){
+        $res = mysqli_query($connect__db , "SELECT * FROM users;");
+
+        while ($post = mysqli_fetch_assoc($res))
+                $postsList[] = $post;
+
+        echo json_encode($postsList);
+    }
+
     function getPost($connect__db , $param) {
 
         if ($param != null) {
